@@ -1,0 +1,8 @@
+path: './output'
+http:
+  address: ':80'
+  path: '/example'
+urls:
+  google: https://google.com
+  tools:
+    github: https://github.com

@@ -1,0 +1,37 @@
+project_name: 'urlzap'
+
+builds:
+  - main: './cmd/urlzap/main.go'
+    binary: 'urlzap'
+    goos: ['linux', 'darwin', 'windows']
+    goarch: ['amd64']
+
+changelog:
+  sort: 'asc'
+  filters:
+    exclude: ['^docs:', '^test:', 'Merge pull request', 'Merge branch']
+
+archives:
+  - format_overrides:
+    - goos: 'windows'
+      format: 'zip'
+
+nfpms:
+  - formats: ['deb', 'rpm']
+    dependencies: ['git']
+
+# dockers:
+#   - image_templates:
+#     - 'brunoluiz/urlzap:{{ .Tag }}'
+#     - 'brunoluiz/urlzap:v{{ .Major }}.{{ .Minor }}'
+#     - 'brunoluiz/urlzap:latest'
+#     dockerfile: 'Dockerfile.prod'
+#     binaries:
+#     - 'urlzap'
+
+brews:
+  - github:
+      owner: 'brunoluiz'
+      name: 'homebrew-tap'
+    folder: 'Formula'
+
