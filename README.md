@@ -68,6 +68,7 @@ your `config.yml`
 
 ```sh
 #!/bin/bash
+
 # adds, commit and push your changes
 git add config.yml
 git commit -m 'chore: update config.yml'
@@ -83,7 +84,7 @@ urlzap generate
 # add, commit and push generated files
 git add --all
 git commit -m 'chore: update HTML files'
-git push -u origin gh-pages
+git push -u origin gh-pages --force
 ```
 
 ## To-do:

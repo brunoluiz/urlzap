@@ -5,7 +5,7 @@ import "net/http"
 // HTTPHandler returns HTTP handler which contains set redirects.
 func HTTPHandler(conf Config) func(http.ResponseWriter, *http.Request) {
 	mux := http.NewServeMux()
-	if err := Read("", conf.URLs, HTTPRedirectCallback(conf.HTTP.Path, mux)); err != nil {
+	if err := Read("", conf.URLs, HTTPRedirectCallback(conf.HTTP.BasePath, mux)); err != nil {
 		panic(err)
 	}
 

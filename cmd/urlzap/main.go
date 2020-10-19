@@ -73,7 +73,7 @@ func generate(c *cli.Context, conf urlzap.Config) error {
 }
 
 func serve(c *cli.Context, conf urlzap.Config) error {
-	if conf.HTTP.Address == "" || conf.HTTP.Path == "" {
+	if conf.HTTP.Address == "" || conf.HTTP.BasePath == "" {
 		return errors.New("Missing http.address or http.path configs")
 	}
 

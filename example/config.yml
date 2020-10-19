@@ -1,7 +1,7 @@
 path: './output'
 http:
   address: ':80'
-  path: '/example'
+  basePath: '/example'
 urls:
   google: https://google.com
   tools:

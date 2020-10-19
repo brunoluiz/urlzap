@@ -8,8 +8,8 @@ import (
 
 // HTTP configs for HTTP server
 type HTTP struct {
-	Path    string `yaml:"path" json:"path"`
-	Address string `yaml:"address" json:"address"`
+	BasePath string `yaml:"basePath" json:"basePath"`
+	Address  string `yaml:"address" json:"address"`
 }
 
 // URLs define a key to value map with the URLs.
