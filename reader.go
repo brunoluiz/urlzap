@@ -37,8 +37,8 @@ func HTMLFileCallback(outputPath string, tmpl *template.Template) Callback {
 	}
 }
 
-// HTTPRedirectCallback register redirect routes in a mux.
-func HTTPRedirectCallback(parent string, r Mux) Callback {
+// HTTPMuxCallback register redirect routes in a mux.
+func HTTPMuxCallback(parent string, r Mux) Callback {
 	parent = strings.TrimSuffix(parent, "/")
 
 	return func(path, url string) error {
