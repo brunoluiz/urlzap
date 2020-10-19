@@ -15,7 +15,11 @@ func TestFromYAML(t *testing.T) {
 	c, err := urlzap.FromYAML(r)
 	require.NoError(t, err)
 	require.Equal(t, c, urlzap.Config{
-		Path: "",
+		Path: "./output",
+		HTTP: urlzap.HTTP{
+			BasePath: "/example",
+			Address:  ":80",
+		},
 		URLs: urlzap.URLs{
 			"google": "https://google.com",
 			"tools": urlzap.URLs{
