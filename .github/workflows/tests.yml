@@ -5,7 +5,7 @@ on:
   pull_request:
 
 jobs:
-  goreleaser:
+  linter:
     runs-on: ubuntu-latest
     steps:
       -
@@ -21,3 +21,15 @@ jobs:
       - 
         name: Run tests
         run: go test ./...
+
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - 
+        name: Run linter
+        uses: golangci/golangci-lint-action@v2
