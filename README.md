@@ -1,13 +1,19 @@
-# urlzap
+<h1 align="center">
+  URLZap
+</h1>
 
-Your own static URL generator ⚡️
+<p align="center">
+  Your own static URL generator ⚡️
+</p>
 
 - Similar to static website generators, but for URLs
 - Keep your (shortned or not) URLs with you
 - Can be used with Github Pages
 - No need to run a server or set-up HTTP 301 redirects
 
-## How does it work?
+Example project: [`brunoluiz/_`](https://github.com/brunoluiz/_)
+
+## ☕️ How does it work?
 
 You might be asking yourself: how is this done without a server? Well, the answer lies on
 `<meta http-equiv="refresh" />`. It works as HTTP 301 (Redirect) status code, but it is done
@@ -39,9 +45,11 @@ This would generate the following:
       - index.html (contains redirect)
 ```
 
-These files can be uploaded to Github Pages for example, not requiring any server.
+These files can be uploaded to Github Pages for example, not requiring any server.  On
+[`brunoluiz/_`](https://github.com/brunoluiz/_) you can see an example `config.yml` and checkout
+the output in `gh-pages` branch 😉
 
-## Install
+## 📀 Install
 
 ### Linux and Windows
 
@@ -56,11 +64,11 @@ brew tap brunoluiz/tap
 brew install urlzap
 ```
 
-## Usage
+## ⚙️ Usage
 
-### Generate files
+### Generate files locally
 
-Using the previous example:
+Using the previous YAML example:
 
 ```yaml
 path: './links' # default is './'
@@ -75,7 +83,19 @@ urls:
 
 To generate the static files, run `urlzap generate`.
 
-### Usage with Github Pages or similars
+### Automatic deploy using Github Actions
+
+Most likely you will end-up using Github Pages together with this tool. If so, perhaps the best
+way to use it and reap its benefits is through Github Actions. Head to
+[`brunoluiz/urlzap-github-action`](https://github.com/marketplace/actions/urlzap) for more details
+on how to install it, covering generation & deployment.
+
+> ⚠️ You might need to manually enable Github Pages in your repository! More details at
+> [Github Pages guide](https://pages.github.com/)
+
+### Manual deploy to Github Pages or similars
+
+If Github Actions are not for you, try the following manual process instead.
 
 1. Enable Github Pages and set-up the branch where your static HTML files will be located.
 More details at [Github Pages guide](https://pages.github.com/)
@@ -86,8 +106,7 @@ More details at [Github Pages guide](https://pages.github.com/)
 1. Run `urlzap generate`
 1. Commit and push
 
-If you want to "automate" this process, try the below bash script, after you've updated
-your `config.yml`
+The following script follows what is described on the steps above:
 
 ```sh
 #!/bin/bash
@@ -109,9 +128,3 @@ git add --all
 git commit -m 'chore: update HTML files'
 git push -u origin gh-pages --force
 ```
-
-## To-do:
-
-1. Create a landing page
-1. Create a Github Actions
-1. Add a better explanation about the tool
