@@ -9,14 +9,14 @@
 Static site generators, published on Github Pages, are quite popular nowadays. But what about a
 static URL generator, which allows you to redirect URLs based on static files?
 
-Usually developers end-up setting up a server with redirects for this (not statically). That is
-where `urlzap` comes in.  It generates URLs using files and HTML wizardry, allowing users to host
+Usually, developers end-up setting up a server with redirects for this (not statically). That is
+where URLZap comes in.  It generates URLs using files and HTML wizardry, allowing users to host
 their own URL redirects into Github Pages.
 
-- Similar to static website generators, but for URLs
-- Keep your (shortned or not) URLs with you
-- Can be used with Github Pages
-- No need to run a server or set-up HTTP 301 redirects
+- 🔗 Similar to static website generators, but for URLs
+- 🔒 Keep your (shortened or not) URLs with you
+- 🌎 Can be used with Github Pages
+- ☕️ No need to run a server or set-up HTTP 301 redirects
 
 Example project: [`brunoluiz/_`](https://github.com/brunoluiz/_)
 
