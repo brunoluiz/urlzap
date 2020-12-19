@@ -1,11 +1,14 @@
 package urlzap
 
 import (
+	"context"
 	"errors"
 	"html/template"
 	"net/http"
 	"os"
 	"strings"
+
+	"golang.org/x/sync/errgroup"
 )
 
 // Callback Function which would be called once a key/value is read.
@@ -51,26 +54,31 @@ func HTTPMuxCallback(parent string, r Mux) Callback {
 }
 
 // Read parses all URLs and calls the callback once found a key (string) and value (url)
-func Read(path string, urls URLs, cb Callback) error {
-	for k, v := range urls {
-		id, ok := k.(string)
-		if !ok {
-			return errors.New("malformated document")
-		}
+func Read(ctx context.Context, path string, urls URLs, cb Callback) error {
+	eg, ctx := errgroup.WithContext(ctx)
 
-		switch val := v.(type) {
-		case string:
-			if err := cb(path+id, val); err != nil {
-				return err
+	for k, v := range urls {
+		eg.Go(func() error {
+			id, ok := k.(string)
+			if !ok {
+				return errors.New("malformated document")
 			}
-		case URLs:
-			if err := Read(path+id+"/", val, cb); err != nil {
-				return err
+
+			switch val := v.(type) {
+			case string:
+				if err := cb(path+id, val); err != nil {
+					return err
+				}
+			case URLs:
+				if err := Read(ctx, path+id+"/", val, cb); err != nil {
+					return err
+				}
+			default:
 			}
-		default:
-			continue
-		}
+
+			return nil
+		})
 	}
 
-	return nil
+	return eg.Wait()
 }

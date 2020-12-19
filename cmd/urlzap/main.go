@@ -69,7 +69,7 @@ func generate(c *cli.Context, conf urlzap.Config) error {
 		conf.Path = "./"
 	}
 
-	return urlzap.Generate(conf)
+	return urlzap.Generate(c.Context, conf)
 }
 
 func serve(c *cli.Context, conf urlzap.Config) error {
@@ -77,5 +77,5 @@ func serve(c *cli.Context, conf urlzap.Config) error {
 		return errors.New("Missing http.address or http.path configs")
 	}
 
-	return http.ListenAndServe(conf.HTTP.Address, urlzap.NewServer(conf))
+	return http.ListenAndServe(conf.HTTP.Address, urlzap.NewServer(c.Context, conf))
 }

@@ -1,11 +1,14 @@
 package urlzap
 
-import "net/http"
+import (
+	"context"
+	"net/http"
+)
 
 // Handler returns HTTP handler which contains set redirects.
-func Handler(conf Config) func(http.ResponseWriter, *http.Request) {
+func Handler(ctx context.Context, conf Config) func(w http.ResponseWriter, r *http.Request) {
 	mux := http.NewServeMux()
-	if err := Read("", conf.URLs, HTTPMuxCallback(conf.HTTP.BasePath, mux)); err != nil {
+	if err := Read(ctx, "", conf.URLs, HTTPMuxCallback(conf.HTTP.BasePath, mux)); err != nil {
 		panic(err)
 	}
 
@@ -18,8 +21,8 @@ type Server struct {
 }
 
 // NewServer returns an instance of Server.
-func NewServer(config Config) *Server {
-	return &Server{handler: Handler(config)}
+func NewServer(ctx context.Context, config Config) *Server {
+	return &Server{handler: Handler(ctx, config)}
 }
 
 func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {

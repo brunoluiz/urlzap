@@ -1,6 +1,7 @@
 package urlzap
 
 import (
+	"context"
 	"html/template"
 )
 
@@ -18,11 +19,11 @@ const redirectHTMLTemplate = `
 `
 
 // Generate generate static files with HTML redirects
-func Generate(c Config) error {
+func Generate(ctx context.Context, c Config) error {
 	tmpl, err := template.New("redirect").Parse(redirectHTMLTemplate)
 	if err != nil {
 		return err
 	}
 
-	return Read("", c.URLs, HTMLFileCallback(c.Path, tmpl))
+	return Read(ctx, "", c.URLs, HTMLFileCallback(c.Path, tmpl))
 }
