@@ -3,11 +3,11 @@
 </h1>
 
 <p align="center">
-  Your own static URL generator ⚡️
+  Your own static URL shortener ⚡️
 </p>
 
 Static site generators, published on Github Pages, are quite popular nowadays. But what about a
-static URL generator, which allows you to redirect URLs based on static files?
+static URL shortener (to not say generator), which allows you to redirect URLs based on static files?
 
 Usually, developers end-up setting up a server with redirects for this (not statically). That is
 where URLZap comes in.  It generates URLs using files and HTML wizardry, allowing users to host
