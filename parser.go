@@ -19,9 +19,10 @@ type URLs map[interface{}]interface{}
 
 // Config define config payload.
 type Config struct {
-	Path string `yaml:"path" json:"path" default:"./" envconfig:"PATH"`
-	HTTP HTTP   `yaml:"http" json:"http"`
-	URLs URLs   `yaml:"urls" json:"urls"`
+	Path              string `yaml,json:"path" default:"./"`
+	HTTP              HTTP   `yaml,json:"http"`
+	URLs              URLs   `yaml,json:"urls"`
+	DisableSocialMeta bool   `yaml,json:"disableSocialMeta"`
 }
 
 // FromYAML loads config from a yaml.
