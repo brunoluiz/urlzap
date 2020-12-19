@@ -2,19 +2,26 @@ package urlzap
 
 import (
 	"context"
-	"html/template"
+	"text/template"
 )
 
-const redirectHTMLTemplate = `
-<!DOCTYPE html>
+type redirectHTMLArgs struct {
+	Title    string
+	URL      string
+	MetaTags []string
+}
+
+const redirectHTMLTemplate = `<!DOCTYPE html>
 <html>
-  <head>
-    <title>{{.URL}}</title>
-    <link rel="canonical" href="{{.URL}}"/>
-    <meta name="robots" content="noindex">
-    <meta charset="utf-8" />
-    <meta http-equiv="refresh" content="0; url={{.URL}}" />
-  </head>
+	<head>
+		<title>{{.Title}}</title>
+		<link rel="canonical" href="{{.URL}}"/>
+		<meta name="robots" content="noindex">
+		<meta charset="utf-8" />
+		<meta http-equiv="refresh" content="0; url={{.URL}}" />
+		{{ range $key, $value := .MetaTags }}
+		{{ $value }}{{ end }}
+	</head>
 </html>
 `
 
@@ -25,5 +32,5 @@ func Generate(ctx context.Context, c Config) error {
 		return err
 	}
 
-	return Read(ctx, "", c.URLs, HTMLFileCallback(c.Path, tmpl))
+	return Read(ctx, "", c.URLs, HTMLFileCallback(c, tmpl))
 }

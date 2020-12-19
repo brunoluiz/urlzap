@@ -3,10 +3,10 @@ package urlzap
 import (
 	"context"
 	"errors"
-	"html/template"
 	"net/http"
 	"os"
 	"strings"
+	"text/template"
 
 	"golang.org/x/sync/errgroup"
 )
@@ -20,8 +20,8 @@ type Mux interface {
 }
 
 // HTMLFileCallback creates static files based on a HTML template.
-func HTMLFileCallback(outputPath string, tmpl *template.Template) Callback {
-	outputPath = strings.TrimSuffix(outputPath, "/")
+func HTMLFileCallback(c Config, tmpl *template.Template) Callback {
+	outputPath := strings.TrimSuffix(c.Path, "/")
 
 	return func(path, url string) error {
 		fullpath := outputPath + "/" + path
@@ -34,9 +34,20 @@ func HTMLFileCallback(outputPath string, tmpl *template.Template) Callback {
 			return err
 		}
 
-		return tmpl.Execute(w, struct {
-			URL string
-		}{url})
+		if c.DisableMetaFetch {
+			return tmpl.Execute(w, redirectHTMLArgs{Title: url, URL: url})
+		}
+
+		title, meta, err := GetMetaData(url)
+		if err != nil {
+			return err
+		}
+
+		return tmpl.Execute(w, redirectHTMLArgs{
+			Title:    title,
+			URL:      url,
+			MetaTags: meta,
+		})
 	}
 }
 

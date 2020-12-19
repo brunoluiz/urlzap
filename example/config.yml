@@ -6,4 +6,4 @@ urls:
   google: https://google.com
   tools:
     github: https://github.com
-disableSocialMeta: false
+disableMetaFetch: false
