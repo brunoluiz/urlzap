@@ -64,32 +64,33 @@ func HTTPMuxCallback(parent string, r Mux) Callback {
 	}
 }
 
-// Read parses all URLs and calls the callback once found a key (string) and value (url)
-func Read(ctx context.Context, path string, urls URLs, cb Callback) error {
-	eg, ctx := errgroup.WithContext(ctx)
-
+func read(ctx context.Context, eg *errgroup.Group, path string, urls URLs, cb Callback) {
 	for k, v := range urls {
+		kk, vv := k, v
 		eg.Go(func() error {
-			id, ok := k.(string)
+			id, ok := kk.(string)
 			if !ok {
 				return errors.New("malformated document")
 			}
 
-			switch val := v.(type) {
+			switch val := vv.(type) {
 			case string:
 				if err := cb(path+id, val); err != nil {
 					return err
 				}
 			case URLs:
-				if err := Read(ctx, path+id+"/", val, cb); err != nil {
-					return err
-				}
-			default:
+				read(ctx, eg, path+id+"/", val, cb)
 			}
 
 			return nil
 		})
 	}
+}
+
+// Read parses all URLs and calls the callback once found a key (string) and value (url)
+func Read(ctx context.Context, path string, urls URLs, cb Callback) error {
+	eg, ctx := errgroup.WithContext(ctx)
+	read(ctx, eg, path, urls, cb)
 
 	return eg.Wait()
 }
