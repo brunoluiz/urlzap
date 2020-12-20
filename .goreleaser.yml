@@ -4,7 +4,7 @@ builds:
   - main: './cmd/urlzap/main.go'
     binary: 'urlzap'
     goos: ['linux', 'darwin', 'windows']
-    goarch: ['amd64']
+    goarch: ['amd64', 'arm64']
 
 changelog:
   sort: 'asc'
