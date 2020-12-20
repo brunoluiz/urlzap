@@ -38,15 +38,21 @@ func HTMLFileCallback(c Config, tmpl *template.Template) Callback {
 			return tmpl.Execute(w, redirectHTMLArgs{Title: url, URL: url})
 		}
 
-		title, meta, err := GetMetaData(url)
+		resp, err := http.Get(url)
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+
+		meta, err := GetMetaData(resp.Body)
 		if err != nil {
 			return err
 		}
 
 		return tmpl.Execute(w, redirectHTMLArgs{
-			Title:    title,
 			URL:      url,
-			MetaTags: meta,
+			Title:    meta.Title,
+			MetaTags: meta.Tags,
 		})
 	}
 }
