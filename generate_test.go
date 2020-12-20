@@ -1,6 +1,7 @@
 package urlzap_test
 
 import (
+	"context"
 	"os"
 	"testing"
 
@@ -9,7 +10,7 @@ import (
 )
 
 func TestGenerate(t *testing.T) {
-	err := urlzap.Generate(urlzap.Config{
+	err := urlzap.Generate(context.Background(), urlzap.Config{
 		Path: "./output",
 		URLs: urlzap.URLs{
 			"google": "https://google.com",

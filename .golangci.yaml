@@ -95,6 +95,9 @@ issues:
     # gas: Duplicated errcheck checks
     - G104
 
+    # G107: Potential HTTP request made with variable url (gosec)
+    - G107
+
     # gas: Too many issues in popular repos
     - (Expect directory permissions to be 0750 or less|Expect file permissions
       to be 0600 or less)

@@ -26,5 +26,6 @@ func TestFromYAML(t *testing.T) {
 				"github": "https://github.com",
 			},
 		},
+		DisableMetaFetch: false,
 	})
 }

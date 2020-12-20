@@ -1,11 +1,14 @@
 package urlzap
 
 import (
+	"context"
 	"errors"
-	"html/template"
 	"net/http"
 	"os"
 	"strings"
+	"text/template"
+
+	"golang.org/x/sync/errgroup"
 )
 
 // Callback Function which would be called once a key/value is read.
@@ -17,8 +20,8 @@ type Mux interface {
 }
 
 // HTMLFileCallback creates static files based on a HTML template.
-func HTMLFileCallback(outputPath string, tmpl *template.Template) Callback {
-	outputPath = strings.TrimSuffix(outputPath, "/")
+func HTMLFileCallback(c Config, tmpl *template.Template) Callback {
+	outputPath := strings.TrimSuffix(c.Path, "/")
 
 	return func(path, url string) error {
 		fullpath := outputPath + "/" + path
@@ -31,9 +34,26 @@ func HTMLFileCallback(outputPath string, tmpl *template.Template) Callback {
 			return err
 		}
 
-		return tmpl.Execute(w, struct {
-			URL string
-		}{url})
+		if c.DisableMetaFetch {
+			return tmpl.Execute(w, redirectHTMLArgs{Title: url, URL: url})
+		}
+
+		resp, err := http.Get(url)
+		if err != nil {
+			return err
+		}
+		defer resp.Body.Close()
+
+		meta, err := GetMetaData(resp.Body)
+		if err != nil {
+			return err
+		}
+
+		return tmpl.Execute(w, redirectHTMLArgs{
+			URL:      url,
+			Title:    meta.Title,
+			MetaTags: meta.Tags,
+		})
 	}
 }
 
@@ -50,27 +70,33 @@ func HTTPMuxCallback(parent string, r Mux) Callback {
 	}
 }
 
-// Read parses all URLs and calls the callback once found a key (string) and value (url)
-func Read(path string, urls URLs, cb Callback) error {
+func read(ctx context.Context, eg *errgroup.Group, path string, urls URLs, cb Callback) {
 	for k, v := range urls {
-		id, ok := k.(string)
-		if !ok {
-			return errors.New("malformated document")
-		}
+		kk, vv := k, v
+		eg.Go(func() error {
+			id, ok := kk.(string)
+			if !ok {
+				return errors.New("malformated document")
+			}
 
-		switch val := v.(type) {
-		case string:
-			if err := cb(path+id, val); err != nil {
-				return err
+			switch val := vv.(type) {
+			case string:
+				if err := cb(path+id, val); err != nil {
+					return err
+				}
+			case URLs:
+				read(ctx, eg, path+id+"/", val, cb)
 			}
-		case URLs:
-			if err := Read(path+id+"/", val, cb); err != nil {
-				return err
-			}
-		default:
-			continue
-		}
+
+			return nil
+		})
 	}
+}
 
-	return nil
+// Read parses all URLs and calls the callback once found a key (string) and value (url)
+func Read(ctx context.Context, path string, urls URLs, cb Callback) error {
+	eg, ctx := errgroup.WithContext(ctx)
+	read(ctx, eg, path, urls, cb)
+
+	return eg.Wait()
 }
