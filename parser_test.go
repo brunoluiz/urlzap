@@ -5,16 +5,16 @@ import (
 	"testing"
 
 	"github.com/brunoluiz/urlzap"
-	"github.com/brunoluiz/urlzap/internal/testtool"
+	"github.com/brunoluiz/urlzap/internal/xtest"
 )
 
 func TestFromYAML(t *testing.T) {
 	r, err := os.Open("./example/config.yml")
-	testtool.NoError(t, err)
+	xtest.NoError(t, err)
 
 	c, err := urlzap.FromYAML(r)
-	testtool.NoError(t, err)
-	testtool.Equal(t, c, urlzap.Config{
+	xtest.NoError(t, err)
+	xtest.Equal(t, c, urlzap.Config{
 		Path: "./output",
 		HTTP: urlzap.HTTP{
 			BasePath: "/example",

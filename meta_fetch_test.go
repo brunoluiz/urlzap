@@ -5,16 +5,16 @@ import (
 	"testing"
 
 	"github.com/brunoluiz/urlzap"
-	"github.com/brunoluiz/urlzap/internal/testtool"
+	"github.com/brunoluiz/urlzap/internal/xtest"
 )
 
 func TestGetMetaData(t *testing.T) {
 	r, err := os.Open("./example/page.html")
-	testtool.NoError(t, err)
+	xtest.NoError(t, err)
 
 	meta, err := urlzap.GetMetaData(r)
-	testtool.NoError(t, err)
-	testtool.Equal(t, urlzap.MetaData{
+	xtest.NoError(t, err)
+	xtest.Equal(t, urlzap.MetaData{
 		Title: "Bruno Luiz Silva",
 		Tags: []string{
 			"<meta name=\"description\" content=\"A collection of random software engineering thoughts\"/>",

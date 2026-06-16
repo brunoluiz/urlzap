@@ -1,4 +1,4 @@
-package testtool
+package xtest
 
 import (
 	"reflect"

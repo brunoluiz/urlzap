@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/brunoluiz/urlzap"
-	"github.com/brunoluiz/urlzap/internal/testtool"
+	"github.com/brunoluiz/urlzap/internal/xtest"
 )
 
 func TestGenerate(t *testing.T) {
@@ -19,16 +19,16 @@ func TestGenerate(t *testing.T) {
 			},
 		},
 	})
-	testtool.NoError(t, err)
+	xtest.NoError(t, err)
 
 	f1, err := os.Stat("./output/google/index.html")
-	testtool.NoError(t, err)
-	testtool.NotEqual(t, f1.Size(), 0)
+	xtest.NoError(t, err)
+	xtest.NotEqual(t, f1.Size(), 0)
 
 	f2, err := os.Stat("./output/tools/github/index.html")
-	testtool.NoError(t, err)
-	testtool.NotEqual(t, f2.Size(), 0)
+	xtest.NoError(t, err)
+	xtest.NotEqual(t, f2.Size(), 0)
 
 	err = os.RemoveAll("./output")
-	testtool.NoError(t, err)
+	xtest.NoError(t, err)
 }
