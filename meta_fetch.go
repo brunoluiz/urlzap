@@ -1,3 +1,5 @@
+// Package urlzap provides URL redirection utilities for generating static HTML redirect pages
+// and serving HTTP redirects.
 package urlzap
 
 import (
@@ -7,6 +9,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
+// MetaData holds parsed HTML meta information.
 type MetaData struct {
 	Title string
 	Tags  []string
@@ -23,7 +26,7 @@ func GetMetaData(html io.ReadCloser) (meta MetaData, err error) {
 
 	meta.Title = doc.Find("title").Text()
 
-	doc.Find("meta").Each(func(i int, s *goquery.Selection) {
+	doc.Find("meta").Each(func(_ int, s *goquery.Selection) {
 		if name, _ := s.Attr("name"); name == "description" || strings.Contains(name, "twitter:") {
 			if tag, err := goquery.OuterHtml(s); err == nil {
 				meta.Tags = append(meta.Tags, tag)

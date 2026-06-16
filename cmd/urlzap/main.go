@@ -1,3 +1,4 @@
+// urlzap is a CLI tool for generating redirect pages and serving HTTP redirects.
 package main
 
 import (
@@ -5,6 +6,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/brunoluiz/urlzap"
 	"github.com/urfave/cli/v2"
@@ -43,7 +45,7 @@ func main() {
 	}
 
 	if err := app.Run(os.Args); err != nil {
-		slog.Error(err.Error())
+		slog.Error(err.Error()) //nolint:gosec // CLI args, not untrusted input
 		os.Exit(1)
 	}
 }
@@ -77,5 +79,11 @@ func serve(c *cli.Context, conf urlzap.Config) error {
 		return errors.New("Missing http.address or http.path configs")
 	}
 
-	return http.ListenAndServe(conf.HTTP.Address, urlzap.NewServer(c.Context, conf))
+	return (&http.Server{
+		Addr:         conf.HTTP.Address,
+		Handler:      urlzap.NewServer(c.Context, conf),
+		ReadTimeout:  10 * time.Second,
+		WriteTimeout: 10 * time.Second,
+		IdleTimeout:  30 * time.Second,
+	}).ListenAndServe()
 }

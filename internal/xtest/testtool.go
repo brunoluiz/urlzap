@@ -1,3 +1,4 @@
+// Package xtest provides lightweight test helpers as a replacement for testify.
 package xtest
 
 import (
@@ -5,6 +6,7 @@ import (
 	"testing"
 )
 
+// NoError fails the test if err is not nil.
 func NoError(t *testing.T, err error) {
 	t.Helper()
 	if err != nil {
@@ -12,6 +14,7 @@ func NoError(t *testing.T, err error) {
 	}
 }
 
+// Equal fails the test if expected and actual are not deeply equal.
 func Equal(t *testing.T, expected, actual interface{}) {
 	t.Helper()
 	if !reflect.DeepEqual(expected, actual) {
@@ -19,6 +22,7 @@ func Equal(t *testing.T, expected, actual interface{}) {
 	}
 }
 
+// NotEqual fails the test if a and b are deeply equal.
 func NotEqual(t *testing.T, a, b interface{}) {
 	t.Helper()
 	if reflect.DeepEqual(a, b) {
