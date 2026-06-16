@@ -44,19 +44,28 @@ linters:
         text: '.*'
       - path: generated
         text: '.*'
-issues:
-  exclude:
-    - 'Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*printf?|os\.(Un)?Setenv|.*Disconnect). is not checked'
-    - 'exported var \w+ should have comment or be unexported'
-    - 'func name will be used as test\.Test.* by other packages'
-    - 'Use of unsafe calls should be audited'
-    - 'Subprocess launch(ed with variable|ing should be audited)'
-    - G104
-    - G107
-    - '(Expect directory permissions to be 0750 or less|Expect file permissions to be 0600 or less)'
-    - 'Potential file inclusion via variable'
-    - '(possible misuse of unsafe.Pointer|should have signature)'
-    - 'ineffective break statement. Did you mean to break out of the outer loop'
+      - path: '.*'
+        text: 'Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*printf?|os\.(Un)?Setenv|.*Disconnect). is not checked'
+      - path: '.*'
+        text: 'exported var \w+ should have comment or be unexported'
+      - path: '.*'
+        text: 'func name will be used as test\.Test.* by other packages'
+      - path: '.*'
+        text: 'Use of unsafe calls should be audited'
+      - path: '.*'
+        text: 'Subprocess launch(ed with variable|ing should be audited)'
+      - path: '.*'
+        text: G104
+      - path: '.*'
+        text: G107
+      - path: '.*'
+        text: '(Expect directory permissions to be 0750 or less|Expect file permissions to be 0600 or less)'
+      - path: '.*'
+        text: 'Potential file inclusion via variable'
+      - path: '.*'
+        text: '(possible misuse of unsafe.Pointer|should have signature)'
+      - path: '.*'
+        text: 'ineffective break statement. Did you mean to break out of the outer loop'
 formatters:
   enable:
     - gofmt
