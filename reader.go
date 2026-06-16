@@ -71,14 +71,9 @@ func HTTPMuxCallback(parent string, r Mux) Callback {
 }
 
 func read(ctx context.Context, eg *errgroup.Group, path string, urls URLs, cb Callback) {
-	for k, v := range urls {
-		kk, vv := k, v
+	for id, v := range urls {
+		vv := v
 		eg.Go(func() error {
-			id, ok := kk.(string)
-			if !ok {
-				return errors.New("malformated document")
-			}
-
 			switch val := vv.(type) {
 			case string:
 				if err := cb(path+id, val); err != nil {
@@ -86,6 +81,8 @@ func read(ctx context.Context, eg *errgroup.Group, path string, urls URLs, cb Ca
 				}
 			case URLs:
 				read(ctx, eg, path+id+"/", val, cb)
+			case nil:
+				return errors.New("malformated document")
 			}
 
 			return nil
