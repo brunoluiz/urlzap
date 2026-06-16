@@ -1,3 +1,4 @@
+version: 2
 project_name: 'urlzap'
 
 builds:
@@ -13,11 +14,12 @@ changelog:
 
 archives:
   - format_overrides:
-    - goos: 'windows'
-      format: 'zip'
+      - goos: 'windows'
+        formats: ['zip']
 
 nfpms:
   - formats: ['deb', 'rpm']
+    maintainer: 'Bruno Luiz Silva <dev@brunoluiz.net>'
     dependencies: ['git']
 
 # dockers:
@@ -29,9 +31,8 @@ nfpms:
 #     binaries:
 #     - 'urlzap'
 
-brews:
-  - github:
-      owner: 'brunoluiz'
-      name: 'homebrew-tap'
-    folder: 'Formula'
-
+homebrew_casks:
+  - name: urlzap
+    repository:
+      owner: brunoluiz
+      name: homebrew-tap
