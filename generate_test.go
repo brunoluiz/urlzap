@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/brunoluiz/urlzap"
-	"github.com/stretchr/testify/require"
+	"github.com/brunoluiz/urlzap/internal/testtool"
 )
 
 func TestGenerate(t *testing.T) {
@@ -19,16 +19,16 @@ func TestGenerate(t *testing.T) {
 			},
 		},
 	})
-	require.NoError(t, err)
+	testtool.NoError(t, err)
 
 	f1, err := os.Stat("./output/google/index.html")
-	require.NoError(t, err)
-	require.NotEqual(t, f1.Size(), 0)
+	testtool.NoError(t, err)
+	testtool.NotEqual(t, f1.Size(), 0)
 
 	f2, err := os.Stat("./output/tools/github/index.html")
-	require.NoError(t, err)
-	require.NotEqual(t, f2.Size(), 0)
+	testtool.NoError(t, err)
+	testtool.NotEqual(t, f2.Size(), 0)
 
 	err = os.RemoveAll("./output")
-	require.NoError(t, err)
+	testtool.NoError(t, err)
 }
