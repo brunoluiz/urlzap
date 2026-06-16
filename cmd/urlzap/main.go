@@ -2,12 +2,11 @@ package main
 
 import (
 	"errors"
+	"log/slog"
 	"net/http"
 	"os"
 
 	"github.com/brunoluiz/urlzap"
-	_ "github.com/joho/godotenv/autoload"
-	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli/v2"
 )
 
@@ -44,7 +43,8 @@ func main() {
 	}
 
 	if err := app.Run(os.Args); err != nil {
-		logrus.Fatal(err)
+		slog.Error(err.Error())
+		os.Exit(1)
 	}
 }
 
