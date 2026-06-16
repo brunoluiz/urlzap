@@ -27,6 +27,8 @@ linters:
     govet:
       disable:
         - shadow
+    misspell:
+      locale: UK
     nakedret:
       max-func-lines: 30
     prealloc:
