@@ -3,7 +3,7 @@ package urlzap
 import (
 	"io"
 
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 // HTTP configs for HTTP server
@@ -15,7 +15,7 @@ type HTTP struct {
 // URLs define a key to value map with the URLs.
 // - Keys are the value to be mapped by the service and the values are the URLs to be redirected to.
 // - Nested keys would have a "/" for each nesting level.
-type URLs map[interface{}]interface{}
+type URLs map[string]interface{}
 
 // Config define config payload.
 type Config struct {

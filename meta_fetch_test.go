@@ -5,16 +5,16 @@ import (
 	"testing"
 
 	"github.com/brunoluiz/urlzap"
-	"github.com/stretchr/testify/require"
+	"github.com/brunoluiz/urlzap/internal/xtest"
 )
 
 func TestGetMetaData(t *testing.T) {
 	r, err := os.Open("./example/page.html")
-	require.NoError(t, err)
+	xtest.NoError(t, err)
 
 	meta, err := urlzap.GetMetaData(r)
-	require.NoError(t, err)
-	require.Equal(t, urlzap.MetaData{
+	xtest.NoError(t, err)
+	xtest.Equal(t, urlzap.MetaData{
 		Title: "Bruno Luiz Silva",
 		Tags: []string{
 			"<meta name=\"description\" content=\"A collection of random software engineering thoughts\"/>",

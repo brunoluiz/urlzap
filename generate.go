@@ -1,3 +1,5 @@
+// Package urlzap provides URL redirection utilities for generating static HTML redirect pages
+// and serving HTTP redirects.
 package urlzap
 
 import (
