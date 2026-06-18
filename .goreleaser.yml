@@ -37,3 +37,4 @@ brews:
       owner: brunoluiz
       name: urlzap
     directory: Formula
+    commit_msg_template: "chore: update brew formula for {{ .ProjectName }} {{ .Tag }}"
