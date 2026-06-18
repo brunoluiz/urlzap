@@ -31,8 +31,9 @@ nfpms:
 #     binaries:
 #     - 'urlzap'
 
-homebrew_casks:
+brews:
   - name: urlzap
     repository:
       owner: brunoluiz
-      name: homebrew-tap
+      name: urlzap
+      path: Formula

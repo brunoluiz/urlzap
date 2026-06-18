@@ -67,7 +67,7 @@ the output in `gh-pages` branch 😉
 Use `brew` to install it
 
 ```
-brew tap brunoluiz/tap
+brew tap brunoluiz/urlzap
 brew install urlzap
 ```
 
