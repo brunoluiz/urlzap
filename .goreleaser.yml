@@ -36,4 +36,4 @@ brews:
     repository:
       owner: brunoluiz
       name: urlzap
-      path: Formula
+    directory: Formula
